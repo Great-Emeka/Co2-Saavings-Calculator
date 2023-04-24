@@ -1,47 +1,66 @@
 import React, {useState} from 'react';
 import CalcInputForm from './components/CalcInputForm';
 
-const App = () => {
-  const [formData, setFormData] = useState({
-    uwOld: 3.50,
-    uwNew: 1.30,
-    windowArea: 30,
-    livingSpace: 80,
-    heatingType: 'natural_gas',
-    co2EmissionsFactor: 0.184
-  });
-
+const Co2SavingsCalculator = () => {
+  const [windowType, setWindowType] = useState("woodenSingle");
+  const [heatingType, setHeatingType] = useState("naturalGas");
+  const [windowArea, setWindowArea] = useState(30);
+  const [livingArea, setLivingArea] = useState(80);
   const [co2Savings, setCo2Savings] = useState(0);
+  const [showAdditionalInfo, setShowAdditionalInfo] = useState(false);
+
 
   //This is the function to do the calculations
-  function calculateCO2Savings() {
-    const { uwOld, uwNew, windowArea, livingSpace, heatingType, co2EmissionsFactor } = formData;
-    const heatTransferOld = uwOld * windowArea;
-    const heatTransferNew = uwNew * windowArea;
-    const heatLossReduction = heatTransferOld - heatTransferNew;
-    const heatingEnergySaved = heatLossReduction * livingSpace;
-    const co2EmissionsSaved = heatingEnergySaved * co2EmissionsFactor;
-    const savings = co2EmissionsSaved * 365 / 1000; // in kg CO2 per year
-    
-    setCo2Savings(savings);
-  }
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-  function handleFormChange(e) {
-    const { name, value } = e.target;
-    setFormData(prevData => ({ ...prevData, [name]: value }));
+    const windowUValue = {
+      woodenSingle: 3.50,
+      woodenDouble: 1.90,
+      pvcSingle: 2.80,
+      pvcDouble: 1.60
+    }[windowType];
+
+    const heatingCo2Emissions = {
+      naturalGas: 0.184,
+      oil: 0.276,
+      propane: 0.239,
+      wood: 0.009
+    }[heatingType];
+
+    const energySavings = (windowUValue - 1.3) * windowArea * livingArea * 24 * 180 / 1000;
+    const co2Reduction = energySavings * heatingCo2Emissions;
+
+    const fuelSaved = {
+      naturalGas: (co2Reduction / 1.96).toFixed(2),
+      oil: (co2Reduction / 2.63).toFixed(2),
+      propane: (co2Reduction / 1.76).toFixed(2),
+      wood: (co2Reduction / 50).toFixed(2)
+    }[heatingType];
+
+    const totalSaved = co2Reduction.toFixed(2);
+    const perSquareMeter = (co2Reduction / livingArea).toFixed(2);
+
+    setCo2Savings({totalSaved, fuelSaved, perSquareMeter});
+    setShowAdditionalInfo(true);
+
   }
 
   return (
-    <div>
-      <h1>C02 Energy Calculator</h1>
+    <div className="container">
+      <h1>C02 Savings Calculator</h1>
       <CalcInputForm 
-        handleFormChange = {handleFormChange}
-        calculateCO2Savings = {calculateCO2Savings}
-        formData = {formData}
+        handleSubmit = {handleSubmit}
         co2Savings = {co2Savings}
+        showAdditionalInfo = {showAdditionalInfo}
+        setWindowType = {setWindowType}
+        setHeatingType = {setHeatingType}
+        setLivingArea = {setLivingArea}
+        setWindowArea = {setWindowArea}
+        heatingType = {heatingType}
       />
     </div>
   );
 }
 
-export default App;
+export default Co2SavingsCalculator;
