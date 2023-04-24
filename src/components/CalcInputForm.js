@@ -28,35 +28,35 @@ const CalcInputForm = (props) => {
             <br />
             <label>Window Area (m²):</label>
             <input type="number" 
-                placeholder="Default 30m²"
+                placeholder="Default Value: 30m²"
                 name="windowArea"
                 value={props.windowArea} 
                 onChange={(e) => props.setWindowArea(Number(e.target.value))} />
             <br />
             <label>Living Area (m²):</label>
             <input type="number" 
-                placeholder="Default 80m²"
+                placeholder="Default Value: 80m²"
                 name="livingArea"
                 value={props.livingArea} 
                 onChange={(e) => props.setLivingArea(Number(e.target.value))} />
             <br />
             <button 
                 type="submit">
-                Calculate
+                <h2>Calculate C0<sub>2</sub> Savings</h2>
             </button>
         </form>
         {props.showAdditionalInfo && (
             <div className="result">
-                <h3>Results:</h3>
+                <h3>RESULT:</h3>
                 {props.heatingType === "naturalGas" && (
-                <p>Amount of cubic meters of natural gas saved: {props.co2Savings.fuelSaved} cbm per year</p>
+                <p className="result1">Amount of cubic meters of natural gas saved:<span style={{}}>{props.co2Savings.fuelSaved}</span> cbm per year</p>
                 )}
                 {["oil", "propane", "wood"].includes(props.heatingType) && (
-                <p>Amount of liters of heating oil saved: {props.co2Savings.fuelSaved} liters per year</p>
+                <p className="result1">Amount of liters of heating oil saved:<span>{props.co2Savings.fuelSaved}</span> liters per year</p>
                 )}
-                <p>Amount of CO2 saved by window Renovation per year: {props.co2Savings.totalSaved} kg CO2</p>
-                <p>CO2 savings per square meter of living space: {props.co2Savings.perSquareMeter} kg CO2/m²</p>
-                <p>Thanks for checking, We can help you replace your windows</p>
+                <p className="result1">Amount of CO2 saved by window Renovation per year: <span>{props.co2Savings.totalSaved}</span> kg CO2</p>
+                <p className="result1">CO2 savings per square meter of living space: <span>{props.co2Savings.perSquareMeter} </span>kg CO2/m²</p>
+                <p style={{marginTop: "2rem"}}>Thanks for checking, We can help you replace your windows</p>
             </div>
         )};
     </div>

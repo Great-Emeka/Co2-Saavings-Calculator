@@ -10,7 +10,6 @@ const Co2SavingsCalculator = () => {
   const [showAdditionalInfo, setShowAdditionalInfo] = useState(false);
 
 
-  //This is the function to do the calculations
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -48,7 +47,7 @@ const Co2SavingsCalculator = () => {
 
   return (
     <div className="container">
-      <h1>C02 Savings Calculator</h1>
+      <h1>CO<sub>2</sub> Savings Calculator</h1>
       <CalcInputForm 
         handleSubmit = {handleSubmit}
         co2Savings = {co2Savings}
