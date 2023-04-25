@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import CalcInputForm from './components/CalcInputForm';
 
+
 const Co2SavingsCalculator = () => {
   const [windowType, setWindowType] = useState("woodenSingle");
   const [heatingType, setHeatingType] = useState("naturalGas");

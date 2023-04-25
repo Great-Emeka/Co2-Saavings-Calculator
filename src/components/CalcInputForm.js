@@ -1,6 +1,24 @@
 import React from "react";
+import ApexCharts from 'apexcharts';
 
 const CalcInputForm = (props) => {
+    const chart = new ApexCharts(document.querySelector("#chart"), {
+        chart: {
+          type: 'bar',
+          height: 350
+        },
+        series: [{
+          name: 'CO2 Savings',
+          data: [props.co2Savings.totalSaved]
+        }],
+        xaxis: {
+          categories: ['CO2 Savings']
+        }
+      });
+      
+      chart.render();
+      
+
   return (
     <div>
         <form onSubmit={props.handleSubmit}>
@@ -56,6 +74,7 @@ const CalcInputForm = (props) => {
                 )}
                 <p className="result1">Amount of CO2 saved by window Renovation per year: <span>{props.co2Savings.totalSaved}</span> kg CO2</p>
                 <p className="result1">CO2 savings per square meter of living space: <span>{props.co2Savings.perSquareMeter} </span>kg CO2/m²</p>
+                <div id="chart"></div>
                 <p style={{marginTop: "2rem"}}>Thanks for checking, We can help you replace your windows</p>
             </div>
         )};
